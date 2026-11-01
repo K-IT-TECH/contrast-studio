@@ -2,7 +2,7 @@
 const KEY='kavin-contrast-studio-v1',E=UI.escape;
 const seed={foreground:'#2449D8',background:'#F7F7F2',pairs:[{id:'p1',name:'Midnight paper',foreground:'#202627',background:'#F7F7F2'},{id:'p2',name:'Forest note',foreground:'#23483D',background:'#E8F0C8'},{id:'p3',name:'Rose ink',foreground:'#6D2343',background:'#FFE8EE'}]};
 const isHex=x=>typeof x==='string'&&/^#[0-9a-f]{6}$/i.test(x);
-let state=UI.load(KEY,seed,x=>isHex(x.foreground)&&isHex(x.background)&&Array.isArray(x.pairs)&&x.pairs.every(p=>p&&isHex(p.foreground)&&isHex(p.background)));
+let state=UI.load(KEY,seed,data=>DataSchema.valid('contrast-studio',data));
 // WCAG relative luminance for opaque sRGB colors. Threshold comparisons are unrounded.
 function luminance(hex){const rgb=hex.slice(1).match(/../g).map(x=>parseInt(x,16)/255).map(x=>x<=0.04045?x/12.92:((x+0.055)/1.055)**2.4);return .2126*rgb[0]+.7152*rgb[1]+.0722*rgb[2];}
 function contrast(fg,bg){const a=luminance(fg),b=luminance(bg);return (Math.max(a,b)+.05)/(Math.min(a,b)+.05);}
